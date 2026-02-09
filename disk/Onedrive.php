@@ -984,42 +984,83 @@ class Onedrive {
     }
 
     public function smallfileupload($path, $tmpfile) {
-        if (!$_SERVER['admin']) {
+        $datePath = 'images/' . date('Y/m/');
+        if ($_SERVER['admin']) {
+            $filename = $tmpfile['name'];
+            // 【优化】增加文件名编码，与 bigfileupload 保持一致，防止特殊字符报错
+            $filename = spurlencode($rawName, '/');
+            $finalPath = path_format($_SERVER['list_path'] . '/' . $path . '/' . $datePath . $filename);
+        } else {
+            // 读取配置中的 'picgo_auth' 字段
+            $saved_token = getConfig('picgo_auth', $this->disktag);
+            if (empty($saved_token)) {
+                return output('Server Error: 管理员未配置 picgo_auth 密钥', 500);
+            }
+            if (!isset($_GET['auth']) || $_GET['auth'] !== $saved_token) {
+                return output('Unauthorized: 密钥错误', 403);
+            }
+            $allowedExts = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg', 'ico'];
+            $extension = strtolower(pathinfo($tmpfile['name'], PATHINFO_EXTENSION));
+            if (!in_array($extension, $allowedExts)) {
+                return output('Security Error: 仅允许上传图片文件', 403);
+            }
             $tmp1 = splitlast($tmpfile['name'], '.');
             if ($tmp1[0] == '' || $tmp1[1] == '') $filename = md5_file($tmpfile['tmp_name']);
             else $filename = md5_file($tmpfile['tmp_name']) . '.' . $tmp1[1];
-        } else {
-            $filename = $tmpfile['name'];
+            $filename = spurlencode(basename(urldecode($filename)));
+            $finalPath = path_format($_SERVER['list_path'] . '/' . $path . '/' . $datePath . $filename);
         }
         $content = file_get_contents($tmpfile['tmp_name']);
-        $result = $this->MSAPI('PUT', path_format($_SERVER['list_path'] . '/' . $path . '/' . $filename), $content);
+        $result = $this->MSAPI('PUT', $finalPath, $content);
         $res = $this->files_format(json_decode($result['body'], true));
-        if (isset($res['url'])) $res['url'] = $_SERVER['host'] . path_format($_SERVER['base_disk_path'] . '/' . $path . '/' . $filename);
+        if (isset($res['url'])) {
+            $res['url'] = $_SERVER['host'] . path_format($_SERVER['base_disk_path'] . '/' . $path . '/' . $datePath . $filename);
+            $res['name'] = $datePath . $filename;
+        }
         return output(json_encode($res, JSON_UNESCAPED_SLASHES), $result['stat']);
     }
     public function bigfileupload($path) {
+        $datePath = 'images/' . date('Y/m/');
+        $finalNameForLink = '';
         if ($_POST['upbigfilename'] == '') return output('error: no file name', 400);
         if (!is_numeric($_POST['filesize'])) return output('error: no file size', 400);
-        if (!$_SERVER['admin']) if (!isset($_POST['filemd5'])) return output('error: no file md5', 400);
-
-        $tmp = splitlast($_POST['upbigfilename'], '/');
-        if ($tmp[1] != '') {
-            $fileinfo['name'] = $tmp[1];
-            if ($_SERVER['admin']) $fileinfo['path'] = $tmp[0];
-        } else {
-            $fileinfo['name'] = $_POST['upbigfilename'];
-        }
-        $fileinfo['size'] = $_POST['filesize'];
-        $fileinfo['filelastModified'] = $_POST['filelastModified'];
         if ($_SERVER['admin']) {
-            $filename = spurlencode($_POST['upbigfilename'], '/');
+            $rawName = $_POST['upbigfilename'];
+            $filename = spurlencode($rawName, '/');
+            $targetPath = path_format($path . '/' . $datePath . $filename);
+            $finalNameForLink = $datePath . $filename;
+            // 缓存文件逻辑 (管理员通常不需要 path 前缀，但在大文件逻辑中保持原名处理)
+            $fileinfo['name'] = $rawName;
+            $fileinfo['path'] = $datePath; // 将 path 标记为日期目录，以便缓存文件区分
         } else {
+            // --- API/非管理员逻辑
+            $saved_token = getConfig('picgo_auth', $this->disktag);
+            if (empty($saved_token)) return output('Server Error: 管理员未配置 picgo_auth 密钥', 500);
+            if (!isset($_GET['auth']) || $_GET['auth'] !== $saved_token) return output('Unauthorized: 密钥错误', 403);
+            if (!isset($_POST['filemd5'])) return output('error: no file md5', 400);
+
+            $allowedExts = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg', 'ico'];
+            $extension = strtolower(pathinfo($_POST['upbigfilename'], PATHINFO_EXTENSION));
+            if (!in_array($extension, $allowedExts)) return output('Security Error: 仅允许上传图片文件', 403);
+
+            $fileinfo['name'] = $_POST['upbigfilename'];
             $tmp1 = splitlast($fileinfo['name'], '.');
             if ($tmp1[0] == '' || $tmp1[1] == '') $filename = $_POST['filemd5'];
             else $filename = $_POST['filemd5'] . '.' . $tmp1[1];
+
+            //$cleanFilename = basename(urldecode($filename)); by sailcom
+            $cleanFilename = spurlencode(basename(urldecode($filename)));
+            $targetPath = path_format($path . '/' . $datePath . $cleanFilename);
+            $finalNameForLink = $datePath . $cleanFilename;
+            $fileinfo['path'] = $datePath; 
         }
+
+        $fileinfo['size'] = $_POST['filesize'];
+        $fileinfo['filelastModified'] = $_POST['filelastModified'];
+        // 缓存文件名：加入 path 区分，防止不同日期的同名文件缓存冲突
+        $cachefilename = spurlencode($fileinfo['path'] . '/.' . $fileinfo['filelastModified'] . '_' . $fileinfo['size'] . '_' . $fileinfo['name'] . '.tmp', '/');
+
         if ($fileinfo['size'] > 10 * 1024 * 1024) {
-            $cachefilename = spurlencode($fileinfo['path'] . '/.' . $fileinfo['filelastModified'] . '_' . $fileinfo['size'] . '_' . $fileinfo['name'] . '.tmp', '/');
             $getoldupinfo = $this->list_files(path_format($path . '/' . $cachefilename));
             //error_log1(json_encode($getoldupinfo, JSON_PRETTY_PRINT));
             if (isset($getoldupinfo['url']) && $getoldupinfo['size'] < 5120) {
@@ -1028,11 +1069,15 @@ class Onedrive {
                 if (json_decode(curl('GET', $getoldupinfo['uploadUrl'])['body'], true)['@odata.context'] != '') return output($getoldupinfo_j['body'], $getoldupinfo_j['stat']);
             }
         }
-        $response = $this->MSAPI('createUploadSession', path_format($path . '/' . $filename), '{"item": { "@microsoft.graph.conflictBehavior": "fail" }}');
+        // 创建上传会话 (使用含日期的 targetPath)
+        $response = $this->MSAPI('createUploadSession', $targetPath, '{"item": { "@microsoft.graph.conflictBehavior": "fail" }}');
         if ($response['stat'] < 500) {
             $responsearry = json_decode($response['body'], true);
             if (isset($responsearry['error'])) return output($response['body'], $response['stat']);
             $fileinfo['uploadUrl'] = $responsearry['uploadUrl'];
+            // 关键修改：将正确的文件路径塞入返回数据中
+            $responsearry['custom_filename'] = $finalNameForLink;
+            $response['body'] = json_encode($responsearry);
             if ($fileinfo['size'] > 10 * 1024 * 1024) $this->MSAPI('PUT', path_format($path . '/' . $cachefilename), json_encode($fileinfo, JSON_PRETTY_PRINT));
         }
         return output($response['body'], $response['stat']);
