@@ -45,6 +45,8 @@ $EnvConfigs = [
     'globalReadmeMdUrl' => 0b0011,
     'globalFootOmfUrl'  => 0b0011,
     'bcmathUrl'         => 0b0011,
+    'GuestView'         => 0b1010,
+    'GuestUpload'       => 0b1010,
 
     'Driver'            => 0b0100,
     'client_id'         => 0b0100,
@@ -413,6 +415,10 @@ function main($path) {
         }
     } else {
         $files = $drive->list_files($path1);
+    }
+
+    if (!getConfig('GuestView') && !$_SERVER['admin'] && $files['type'] == 'folder') {
+        $files = json_decode('{"type":"folder"}', true);
     }
     //echo "<pre>" . json_encode($files, 448) . "</pre>";
     //if ($path!=='') 
@@ -2374,7 +2380,7 @@ function render_list($path = '', $files = []) {
 
     //if (isset($_COOKIE['theme'])&&$_COOKIE['theme']!='') $theme = $_COOKIE['theme'];
     //if ( !file_exists(__DIR__ . $slash .'theme' . $slash . $theme) ) $theme = '';
-    if ($_SERVER['admin']) $theme = 'classic.html';
+    //if ($_SERVER['admin']) $theme = 'classic.html';
     if ($theme == '') {
         $tmp = getConfig('customTheme');
         if ($tmp != '') $theme = $tmp;
@@ -2413,6 +2419,8 @@ function render_list($path = '', $files = []) {
 
         if ($files) {
             getStackHtml($html, "List", 0);
+            if (!$_SERVER['admin'] && !getConfig('GuestUpload')) getStackHtml($html, "GuestUpload", 1);
+            else getStackHtml($html, "GuestUpload", 0);
         } else {
             //$html = '<pre>' . json_encode($files, JSON_PRETTY_PRINT) . '</pre>' . $html;
             getStackHtml($html, "IsFile", 1);
