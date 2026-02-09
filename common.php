@@ -69,6 +69,7 @@ $EnvConfigs = [
     'public_path'       => 0b0111,
     'fileConduitSize'   => 0b0110,
     'fileConduitCacheTime'   => 0b0110,
+    'picgo_auth'        => 0b0010,
 ];
 
 $timezones = array(

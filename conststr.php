@@ -119,6 +119,7 @@ $constStr = [
             'domainforproxy' => 'Will replace the https://xxxxx-my.sharepoint.com with this value.Add &Origindomain=xxxxx-my.sharepoint.com at last',
             'public_path' => 'Show this Onedrive dir when through the long url of API Gateway.',
             'sitename' => 'sitename',
+            'picgo_auth' => 'PicGo Auth Token. Used for API uploads.',
         ],
         'zh-cn' => [
             'admin' => '管理密码，不添加时不显示登录页面且无法登录。',
@@ -153,6 +154,7 @@ $constStr = [
             'domainforproxy' => '会将https://xxxxx-my.sharepoint.com替换成这个值，在目标需要自己设置反代。会加上&Origindomain=原域名',
             'public_path' => '使用API长链接访问时，显示网盘文件的路径，不设置时默认为根目录。',
             'sitename' => '网站的名称',
+            'picgo_auth' => 'PicGo 认证密钥。用于 API 上传鉴权。',
         ],
         'zh-tw' => [
             'admin' => '管理密碼，不設定密碼將不顯示登入頁面且無法登入。',
