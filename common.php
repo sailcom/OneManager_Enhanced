@@ -805,6 +805,21 @@ function path_format($path) {
     return $path;
 }
 
+function gen_renamed_filename($original_filename, $md5 = '') {
+    // 将上传的文件重命名
+    $extension = strtolower(pathinfo($original_filename, PATHINFO_EXTENSION));
+    $timestamp = time();
+    
+    if (!empty($md5)) {
+        $hash_part = substr($md5, 0, 8);
+    } else {
+        // Fallback: Generate 8 random hex characters if MD5 is missing
+        $hash_part = bin2hex(random_bytes(4));
+    }
+    
+    return $timestamp . '_' . $hash_part . '.' . $extension;
+}
+
 function spurlencode($str, $split = '') {
     $str = str_replace(' ', '%20', $str);
     $tmp = '';

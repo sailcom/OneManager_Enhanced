@@ -985,12 +985,8 @@ class Onedrive {
 
     public function smallfileupload($path, $tmpfile) {
         $datePath = 'images/' . date('Y/m/');
-        if ($_SERVER['admin']) {
-            $filename = $tmpfile['name'];
-            // 【优化】增加文件名编码，与 bigfileupload 保持一致，防止特殊字符报错
-            $filename = spurlencode($rawName, '/');
-            $finalPath = path_format($_SERVER['list_path'] . '/' . $path . '/' . $datePath . $filename);
-        } else {
+        
+        if (!$_SERVER['admin']) {
             // 读取配置中的 'picgo_auth' 字段
             $saved_token = getConfig('picgo_auth', $this->disktag);
             if (empty($saved_token)) {
@@ -1004,35 +1000,28 @@ class Onedrive {
             if (!in_array($extension, $allowedExts)) {
                 return output('Security Error: 仅允许上传图片文件', 403);
             }
-            $tmp1 = splitlast($tmpfile['name'], '.');
-            if ($tmp1[0] == '' || $tmp1[1] == '') $filename = md5_file($tmpfile['tmp_name']);
-            else $filename = md5_file($tmpfile['tmp_name']) . '.' . $tmp1[1];
-            $filename = spurlencode(basename(urldecode($filename)));
-            $finalPath = path_format($_SERVER['list_path'] . '/' . $path . '/' . $datePath . $filename);
         }
+        
+        $filemd5 = md5_file($tmpfile['tmp_name']);
+        $newFilename = gen_renamed_filename($tmpfile['name'], $filemd5);
+        $encodedFilename = spurlencode($newFilename);
+        $finalPath = path_format($_SERVER['list_path'] . '/' . $path . '/' . $datePath . $encodedFilename);
+
         $content = file_get_contents($tmpfile['tmp_name']);
         $result = $this->MSAPI('PUT', $finalPath, $content);
         $res = $this->files_format(json_decode($result['body'], true));
         if (isset($res['url'])) {
-            $res['url'] = $_SERVER['host'] . path_format($_SERVER['base_disk_path'] . '/' . $path . '/' . $datePath . $filename);
-            $res['name'] = $datePath . $filename;
+            $res['url'] = $_SERVER['host'] . path_format($_SERVER['base_disk_path'] . '/' . $path . '/' . $datePath . $newFilename);
+            $res['name'] = $datePath . $newFilename;
         }
         return output(json_encode($res, JSON_UNESCAPED_SLASHES), $result['stat']);
     }
     public function bigfileupload($path) {
         $datePath = 'images/' . date('Y/m/');
-        $finalNameForLink = '';
         if ($_POST['upbigfilename'] == '') return output('error: no file name', 400);
         if (!is_numeric($_POST['filesize'])) return output('error: no file size', 400);
-        if ($_SERVER['admin']) {
-            $rawName = $_POST['upbigfilename'];
-            $filename = spurlencode($rawName, '/');
-            $targetPath = path_format($path . '/' . $datePath . $filename);
-            $finalNameForLink = $datePath . $filename;
-            // 缓存文件逻辑 (管理员通常不需要 path 前缀，但在大文件逻辑中保持原名处理)
-            $fileinfo['name'] = $rawName;
-            $fileinfo['path'] = $datePath; // 将 path 标记为日期目录，以便缓存文件区分
-        } else {
+
+        if (!$_SERVER['admin']) {
             // --- API/非管理员逻辑
             $saved_token = getConfig('picgo_auth', $this->disktag);
             if (empty($saved_token)) return output('Server Error: 管理员未配置 picgo_auth 密钥', 500);
@@ -1042,19 +1031,17 @@ class Onedrive {
             $allowedExts = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg', 'ico'];
             $extension = strtolower(pathinfo($_POST['upbigfilename'], PATHINFO_EXTENSION));
             if (!in_array($extension, $allowedExts)) return output('Security Error: 仅允许上传图片文件', 403);
-
-            $fileinfo['name'] = $_POST['upbigfilename'];
-            $tmp1 = splitlast($fileinfo['name'], '.');
-            if ($tmp1[0] == '' || $tmp1[1] == '') $filename = $_POST['filemd5'];
-            else $filename = $_POST['filemd5'] . '.' . $tmp1[1];
-
-            //$cleanFilename = basename(urldecode($filename)); by sailcom
-            $cleanFilename = spurlencode(basename(urldecode($filename)));
-            $targetPath = path_format($path . '/' . $datePath . $cleanFilename);
-            $finalNameForLink = $datePath . $cleanFilename;
-            $fileinfo['path'] = $datePath; 
         }
 
+        $filemd5 = $_POST['filemd5'] ?? '';
+        $originalFilename = $_POST['upbigfilename'];
+        $newFilename = gen_renamed_filename($originalFilename, $filemd5);
+        $encodedFilename = spurlencode($newFilename);
+        $targetPath = path_format($path . '/' . $datePath . $encodedFilename);
+        $finalNameForLink = $datePath . $encodedFilename;
+        
+        $fileinfo['name'] = $newFilename;
+        $fileinfo['path'] = $datePath; 
         $fileinfo['size'] = $_POST['filesize'];
         $fileinfo['filelastModified'] = $_POST['filelastModified'];
         // 缓存文件名：加入 path 区分，防止不同日期的同名文件缓存冲突
