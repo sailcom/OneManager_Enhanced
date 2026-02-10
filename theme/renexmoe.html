@@ -11,6 +11,7 @@
   <title><!--Title--></title>
   <meta name="description" content="A Onemanager-PHP site with Theme-renexmoe" />
   <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/186526/renexmoe-cdn@v1.3/css/app.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mdui/1.0.2/js/mdui.min.js"></script>
   <meta name="theme-color" content="#fff" />
   <!--BackgroundStart-->
   <style>
@@ -96,7 +97,7 @@
       <!--li class="mdui-list-item mdui-ripple" id="checkupdate">
         <i class="mdui-icon material-icons mdui-list-item-icon">update</i>
         <div class="mdui-list-item-content">检查主题更新</div>
-      </li>
+      </li-->
       <div class="mdui-divider"></div>
       <!--AdminEnd-->
 
@@ -576,6 +577,7 @@
                   if (!html['uploadUrl']) {
                     td2.innerHTML = '<font color="red">' + xhr1.responseText + '</font><br>';
                   } else {
+                    if (html['custom_filename']) upbigfilename = html['custom_filename'];
                     td2.innerHTML = '<!--constStr@UploadStart--> ...';
                     binupfile(file, html['uploadUrl'], timea + '_' + i, upbigfilename);
                   }
@@ -657,7 +659,7 @@
                       label.innerHTML = '<!--constStr@UploadComplete-->';
                       var path = location.pathname;
                       if (path.substr(-1) != '/') path += '/';
-                      var upbigfilename = encodeURIComponent(filename);
+                      var upbigfilename = filename;
                       var td1 = document.getElementById('upfile_td1_' + tdnum);
                       td1.innerHTML = '<div><a href="<!--base_disk_path--><!--Path-->' + upbigfilename + '?preview" id="upfile_a_' + tdnum + '" target="_blank">' + td1.innerHTML + '</a><br><a href="<!--base_disk_path--><!--Path-->' + upbigfilename + '" id="upfile_a1_' + tdnum + '"></a><!--constStr@UploadComplete--><button class="mdui-btn mdui-btn-icon mdui-ripple" onclick="CopyAllDownloadUrl(\'#upfile_a1_' + tdnum + '\');" id="upfile_cpbt_' + tdnum + '"><i class="mdui-icon material-icons">content_copy</i></button></div>';
                     } else {

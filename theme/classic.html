@@ -1,15 +1,15 @@
 <!--IconValuesStart-->
 {
-    "music":"musical-notes",
-    "video":"logo-youtube",
-    "img":"image",
-    "office":"newspaper",
-    "txt":"clipboard",
-    "zip":"file-tray-full",
-    "iso":"disc",
-    "apk":"logo-android",
-    "exe":"logo-windows",
-    "default":"document"
+"music":"musical-notes",
+"video":"logo-youtube",
+"img":"image",
+"office":"newspaper",
+"txt":"clipboard",
+"zip":"file-tray-full",
+"iso":"disc",
+"apk":"logo-android",
+"exe":"logo-windows",
+"default":"document"
 }
 <!--IconValuesEnd-->
 <!DOCTYPE html>
@@ -323,8 +323,10 @@
         <li class="operate"><ion-icon name="construct"></ion-icon><!--constStr@Operate-->
             <ul>
                 <!--IsFolderStart-->
-                <li><a onclick="showdiv(event,'create','');"><ion-icon name="add-circle"></ion-icon><!--constStr@Create--></a></li>
-                <li><a onclick="showdiv(event,'encrypt','');"><ion-icon name="lock-closed"></ion-icon><!--constStr@Encrypt--></a></li>
+                <li><a onclick="showdiv(event,'create','');"><ion-icon
+                            name="add-circle"></ion-icon><!--constStr@Create--></a></li>
+                <li><a onclick="showdiv(event,'encrypt','');"><ion-icon
+                            name="lock-closed"></ion-icon><!--constStr@Encrypt--></a></li>
                 <li><a href="?RefreshCache"><ion-icon name="refresh"></ion-icon><!--constStr@RefreshCache--></a></li>
                 <!--IsFolderEnd-->
                 <li><a href="<!--IsPreview?-->setup"><ion-icon name="settings"></ion-icon><!--constStr@Setup--></a></li>
@@ -400,34 +402,27 @@
                 <div style="padding:20px">
                     <center>
                         <form action="" method="post">
-                            <input id="password1" name="password1" type="password" placeholder="<!--constStr@InputPassword-->">
+                            <input id="password1" name="password1" type="password"
+                                placeholder="<!--constStr@InputPassword-->">
                             <input type="submit" value="<!--constStr@Submit-->">
                         </form>
                     </center>
                 </div>
                 <!--EncryptedEnd-->
-                <!--GuestUploadStart-->
-                <div id="upload_div" style="padding:0 0 16px 0">
-                    <div id="upload_btns" align="center">
-                        <select onchange="document.getElementById('upload_file').webkitdirectory=this.value;">
-                            <option value=""><!--constStr@UploadFile--></option>
-                            <option value="1"><!--constStr@UploadFolder--></option>
-                        </select>
-                        <input id="upload_file" type="file" name="upload_filename" multiple="multiple">
-                        <input id="upload_submit" onclick="preup();" value="<!--constStr@Upload-->" type="button">
-                    </div>
-                </div>
-                <!--GuestUploadEnd-->
+
 
                 <!--IsFileStart-->
                 <div style="padding: 12px 4px 4px; text-align: center">
                     <div style="margin: 24px">
-                        <textarea id="url" title="url" rows="1" style="width: 100%; margin-top: 2px;" readonly><!--FileEncodeUrl--></textarea>
-                        <a href="<!--FileEncodeUrl-->"><ion-icon name="download" style="line-height: 16px;vertical-align: middle;"></ion-icon>&nbsp;<!--constStr@Download--></a>
+                        <textarea id="url" title="url" rows="1" style="width: 100%; margin-top: 2px;"
+                            readonly><!--FileEncodeUrl--></textarea>
+                        <a href="<!--FileEncodeUrl-->"><ion-icon name="download"
+                                style="line-height: 16px;vertical-align: middle;"></ion-icon>&nbsp;<!--constStr@Download--></a>
                     </div>
                     <div style="margin: 24px">
                         <!--IsimgFileStart-->
-                        <img src="<!--FileEncodeUrl-->" alt="<!--FileName-->" onload="if (this.offsetWidth>document.getElementById('url').offsetWidth) this.style.width='100%';if (this.offsetHeight>document.documentElement.clientHeight) this.style.height=document.documentElement.clientHeight + 'px';" />
+                        <img src="<!--FileEncodeUrl-->" alt="<!--FileName-->"
+                            onload="if (this.offsetWidth>document.getElementById('url').offsetWidth) this.style.width='100%';if (this.offsetHeight>document.documentElement.clientHeight) this.style.height=document.documentElement.clientHeight + 'px';" />
                         <!--IsimgFileEnd-->
                         <!--IsvideoFileStart-->
                         <div id="video-a0"></div>
@@ -439,18 +434,26 @@
                         <div id="pdf-d">Loading PDF.js</div>
                         <!--IspdfFileEnd-->
                         <!--IsofficeFileStart-->
-                        <iframe id="office-a" src="https://view.officeapps.live.com/op/view.aspx?src=<!--FileEncodeDownUrl-->" style="width: 100%;height: 800px" frameborder="0"></iframe>
+                        <iframe id="office-a"
+                            src="https://view.officeapps.live.com/op/view.aspx?src=<!--FileEncodeDownUrl-->"
+                            style="width: 100%;height: 800px" frameborder="0"></iframe>
                         <!--IsofficeFileEnd-->
                         <!--IstxtFileStart-->
                         <div id="txt">
                             <!--AdminStart-->
                             <form id="txt-form" action="" method="POST">
                                 <input name="_admin" type="hidden" value="">
-                                <a onclick="document.getElementById('txt-a').readOnly='';document.getElementById('txt-save').style.display='';document.getElementById('txt-editbutton').style.display='none';document.getElementById('txt-cancelbutton').style.display='';" id="txt-editbutton"><ion-icon name="create"></ion-icon><!--constStr@ClicktoEdit--></a>
-                                <a onclick="document.getElementById('txt-a').readOnly='readonly';document.getElementById('txt-save').style.display='none';document.getElementById('txt-editbutton').style.display='';document.getElementById('txt-cancelbutton').style.display='none';" id="txt-cancelbutton" style="display:none"><ion-icon name="close"></ion-icon><!--constStr@CancelEdit--></a>&nbsp;&nbsp;&nbsp;
-                                <a id="txt-save" style="display:none"><ion-icon name="save"></ion-icon><!--constStr@Save--></a>
+                                <a onclick="document.getElementById('txt-a').readOnly='';document.getElementById('txt-save').style.display='';document.getElementById('txt-editbutton').style.display='none';document.getElementById('txt-cancelbutton').style.display='';"
+                                    id="txt-editbutton"><ion-icon
+                                        name="create"></ion-icon><!--constStr@ClicktoEdit--></a>
+                                <a onclick="document.getElementById('txt-a').readOnly='readonly';document.getElementById('txt-save').style.display='none';document.getElementById('txt-editbutton').style.display='';document.getElementById('txt-cancelbutton').style.display='none';"
+                                    id="txt-cancelbutton" style="display:none"><ion-icon
+                                        name="close"></ion-icon><!--constStr@CancelEdit--></a>&nbsp;&nbsp;&nbsp;
+                                <a id="txt-save" style="display:none"><ion-icon
+                                        name="save"></ion-icon><!--constStr@Save--></a>
                                 <!--AdminEnd-->
-                                <textarea id="txt-a" name="editfile" readonly style="width: 100%; margin-top: 2px;" <!--AdminStart-->onchange="document.getElementById('txt-save').onclick=function(){document.getElementById('txt-form').submit();}"<!--AdminEnd--> ><!--TxtContent--></textarea>
+                                <textarea id="txt-a" name="editfile" readonly style="width: 100%; margin-top: 2px;"
+                                    <!--AdminStart-->onchange="document.getElementById('txt-save').onclick=function(){document.getElementById('txt-form').submit();}"<!--AdminEnd--> ><!--TxtContent--></textarea>
                                 <!--AdminStart-->
                             </form>
                             <script>
@@ -479,7 +482,8 @@
                             <button onclick="showthumbnails(this);"><!--constStr@ShowThumbnails--></button>
                             <!--ShowThumbnailsEnd-->
                             &nbsp;
-                            <button onclick="CopyAllDownloadUrl('.download');"><!--constStr@CopyAllDownloadUrl--></button>
+                            <button
+                                onclick="CopyAllDownloadUrl('.download');"><!--constStr@CopyAllDownloadUrl--></button>
                         </th>
                         <th class="updated_at"><a onclick="sortby('time');"><!--constStr@EditTime--></a></th>
                         <th class="size"><a onclick="sortby('size');"><!--constStr@Size--></a></th>
@@ -491,16 +495,22 @@
                             <!--AdminStart-->
                             <li class="operate"><ion-icon name="construct"></ion-icon><a><!--constStr@Operate--></a>
                                 <ul>
-                                    <li><a onclick="showdiv(event, 'encrypt', /*--filenum--*/);"><ion-icon name="lock-closed"></ion-icon><!--constStr@Encrypt--></a></li>
-                                    <li><a onclick="showdiv(event, 'rename', /*--filenum--*/);"><ion-icon name="create"></ion-icon><!--constStr@Rename--></a></li>
-                                    <li><a onclick="showdiv(event, 'move', /*--filenum--*/);"><ion-icon name="move"></ion-icon><!--constStr@Move--></a></li>
-                                    <li><a onclick="showdiv(event, 'copy', /*--filenum--*/);"><ion-icon name="copy"></ion-icon><!--constStr@Copy--></a></li>
-                                    <li><a onclick="showdiv(event, 'delete', /*--filenum--*/);"><ion-icon name="trash"></ion-icon><!--constStr@Delete--></a></li>
+                                    <li><a onclick="showdiv(event, 'encrypt', /*--filenum--*/);"><ion-icon
+                                                name="lock-closed"></ion-icon><!--constStr@Encrypt--></a></li>
+                                    <li><a onclick="showdiv(event, 'rename', /*--filenum--*/);"><ion-icon
+                                                name="create"></ion-icon><!--constStr@Rename--></a></li>
+                                    <li><a onclick="showdiv(event, 'move', /*--filenum--*/);"><ion-icon
+                                                name="move"></ion-icon><!--constStr@Move--></a></li>
+                                    <li><a onclick="showdiv(event, 'copy', /*--filenum--*/);"><ion-icon
+                                                name="copy"></ion-icon><!--constStr@Copy--></a></li>
+                                    <li><a onclick="showdiv(event, 'delete', /*--filenum--*/);"><ion-icon
+                                                name="trash"></ion-icon><!--constStr@Delete--></a></li>
                                 </ul>
                             </li>
                             <!--AdminEnd-->
                             <ion-icon name="folder"></ion-icon>
-                            <a id="file_a<!--filenum-->" name="folderlist" href="<!--FileEncodeReplaceUrl-->/" fileid="<!--FileId-->"><!--FileEncodeReplaceName--></a>
+                            <a id="file_a<!--filenum-->" name="folderlist" href="<!--FileEncodeReplaceUrl-->/"
+                                fileid="<!--FileId-->"><!--FileEncodeReplaceName--></a>
                         </td>
                         <td class="updated_at" id="folder_time<!--filenum-->"><!--lastModifiedDateTime--></td>
                         <td class="size" id="folder_size<!--filenum-->"><!--size--></td>
@@ -512,16 +522,22 @@
                             <!--AdminStart-->
                             <li class="operate"><ion-icon name="construct"></ion-icon><a><!--constStr@Operate--></a>
                                 <ul>
-                                    <li><a onclick="showdiv(event, 'rename', /*--filenum--*/);"><ion-icon name="create"></ion-icon><!--constStr@Rename--></a></li>
-                                    <li><a onclick="showdiv(event, 'move', /*--filenum--*/);"><ion-icon name="move"></ion-icon><!--constStr@Move--></a></li>
-                                    <li><a onclick="showdiv(event, 'copy', /*--filenum--*/);"><ion-icon name="copy"></ion-icon><!--constStr@Copy--></a></li>
-                                    <li><a onclick="showdiv(event, 'delete', /*--filenum--*/);"><ion-icon name="trash"></ion-icon><!--constStr@Delete--></a></li>
+                                    <li><a onclick="showdiv(event, 'rename', /*--filenum--*/);"><ion-icon
+                                                name="create"></ion-icon><!--constStr@Rename--></a></li>
+                                    <li><a onclick="showdiv(event, 'move', /*--filenum--*/);"><ion-icon
+                                                name="move"></ion-icon><!--constStr@Move--></a></li>
+                                    <li><a onclick="showdiv(event, 'copy', /*--filenum--*/);"><ion-icon
+                                                name="copy"></ion-icon><!--constStr@Copy--></a></li>
+                                    <li><a onclick="showdiv(event, 'delete', /*--filenum--*/);"><ion-icon
+                                                name="trash"></ion-icon><!--constStr@Delete--></a></li>
                                 </ul>
                             </li>
                             <!--AdminEnd-->
                             <ion-icon name="<!--IconValue-->"></ion-icon>
-                            <a id="file_a<!--filenum-->" name="filelist" href="<!--FileEncodeReplaceUrl-->?preview" fileid="<!--FileId-->" target=_blank><!--FileEncodeReplaceName--></a>
-                            <a class="download" href="<!--FileEncodeReplaceUrl-->"><ion-icon name="download"></ion-icon></a>
+                            <a id="file_a<!--filenum-->" name="filelist" href="<!--FileEncodeReplaceUrl-->?preview"
+                                fileid="<!--FileId-->" target=_blank><!--FileEncodeReplaceName--></a>
+                            <a class="download" href="<!--FileEncodeReplaceUrl-->"><ion-icon
+                                    name="download"></ion-icon></a>
                         </td>
                         <td class="updated_at" id="file_time<!--filenum-->"><!--lastModifiedDateTime--></td>
                         <td class="size" id="file_size<!--filenum-->"><!--size--></td>
@@ -555,7 +571,7 @@
                     </table>
                 </form>
                 <!--MorePageEnd-->
-                <!--AdminStart-->
+                <!--GuestUploadStart-->
                 <div id="upload_div" style="padding:0 0 16px 0">
                     <div id="upload_btns" align="center">
                         <select onchange="document.getElementById('upload_file').webkitdirectory=this.value;">
@@ -566,7 +582,7 @@
                         <input id="upload_submit" onclick="preup();" value="<!--constStr@Upload-->" type="button">
                     </div>
                 </div>
-                <!--AdminEnd-->
+                <!--GuestUploadEnd-->
                 <!--IsFolderEnd-->
             </div>
         </div>
@@ -605,7 +621,8 @@
     <div style="word-break: break-all;word-wrap: break-word;">
         <div id="rename_div" class="operatediv" style="display:none">
             <div>
-                <label id="rename_label"></label><br><br><a onclick="operatediv_close('rename')" class="operatediv_close"><!--constStr@Close--></a>
+                <label id="rename_label"></label><br><br><a onclick="operatediv_close('rename')"
+                    class="operatediv_close"><!--constStr@Close--></a>
                 <form id="rename_form" onsubmit="return submit_operate('rename');">
                     <input id="rename_sid" name="rename_sid" type="hidden" value="">
                     <input id="rename_fileid" name="rename_fileid" type="hidden" value="">
@@ -630,19 +647,23 @@
         </div>
         <div id="encrypt_div" class="operatediv" style="display:none">
             <div>
-                <label id="encrypt_label"></label><br><br><a onclick="operatediv_close('encrypt')" class="operatediv_close"><!--constStr@Close--></a>
+                <label id="encrypt_label"></label><br><br><a onclick="operatediv_close('encrypt')"
+                    class="operatediv_close"><!--constStr@Close--></a>
                 <form id="encrypt_form" onsubmit="return submit_operate('encrypt');">
                     <input id="encrypt_sid" name="encrypt_sid" type="hidden" value="">
                     <input id="encrypt_fileid" name="encrypt_fileid" type="hidden" value="">
                     <input id="encrypt_hidden" name="encrypt_folder" type="hidden" value="">
-                    <input id="encrypt_input" name="encrypt_newpass" type="text" value="" placeholder="<!--constStr@InputPasswordUWant-->">
-                    <!--EncryptBtnStart--><input name="operate_action" type="submit" value="<!--constStr@Encrypt-->"><!--EncryptBtnEnd--><!--EncryptAlertStart--><br><label><!--constStr@SetpassfileBfEncrypt--></label><!--EncryptAlertEnd-->
+                    <input id="encrypt_input" name="encrypt_newpass" type="text" value=""
+                        placeholder="<!--constStr@InputPasswordUWant-->">
+                    <!--EncryptBtnStart--><input name="operate_action" type="submit"
+                        value="<!--constStr@Encrypt-->"><!--EncryptBtnEnd--><!--EncryptAlertStart--><br><label><!--constStr@SetpassfileBfEncrypt--></label><!--EncryptAlertEnd-->
                 </form>
             </div>
         </div>
         <div id="copy_div" class="operatediv" style="display:none">
             <div>
-                <label id="copy_label"></label><br><br><a onclick="operatediv_close('copy')" class="operatediv_close"><!--constStr@Close--></a>
+                <label id="copy_label"></label><br><br><a onclick="operatediv_close('copy')"
+                    class="operatediv_close"><!--constStr@Close--></a>
                 <form id="copy_form" onsubmit="return submit_operate('copy');">
                     <input id="copy_sid" name="copy_sid" type="hidden" value="">
                     <input id="copy_fileid" name="copy_fileid" type="hidden" value="">
@@ -654,7 +675,8 @@
         </div>
         <div id="move_div" class="operatediv" style="display:none">
             <div>
-                <label id="move_label"></label><br><br><a onclick="operatediv_close('move')" class="operatediv_close"><!--constStr@Close--></a>
+                <label id="move_label"></label><br><br><a onclick="operatediv_close('move')"
+                    class="operatediv_close"><!--constStr@Close--></a>
                 <form id="move_form" onsubmit="return submit_operate('move');">
                     <input id="move_sid" name="move_sid" type="hidden" value="">
                     <input id="move_fileid" name="move_fileid" type="hidden" value="">
@@ -686,8 +708,11 @@
                         <tr>
                             <td>　　　</td>
                             <td>
-                                <label><input id="create_type_folder" name="create_type" type="radio" value="folder" onclick="document.getElementById('create_text_div').style.display='none';"><!--constStr@Folder--></label>
-                                <label><input id="create_type_file" name="create_type" type="radio" value="file" onclick="document.getElementById('create_text_div').style.display='';" checked><!--constStr@File--></label>
+                                <label><input id="create_type_folder" name="create_type" type="radio" value="folder"
+                                        onclick="document.getElementById('create_text_div').style.display='none';"><!--constStr@Folder--></label>
+                                <label><input id="create_type_file" name="create_type" type="radio" value="file"
+                                        onclick="document.getElementById('create_text_div').style.display='';"
+                                        checked><!--constStr@File--></label>
                             <td>
                         </tr>
                         <tr>
@@ -715,7 +740,8 @@
             <a onclick="operatediv_close('login')" class="operatediv_close"><!--constStr@Close--></a>
             <center>
                 <form action="<!--IsPreview?-->login=admin" method="post" onsubmit="return sha1loginpass(this);">
-                    <input id="login_input" name="password1" type="password" placeholder="<!--constStr@InputPassword-->">
+                    <input id="login_input" name="password1" type="password"
+                        placeholder="<!--constStr@InputPassword-->">
                     <input name="timestamp" type="hidden" value="">
                     <input type="submit" value="<!--constStr@Login-->">
                 </form>
@@ -1294,6 +1320,7 @@
                             if (!html['uploadUrl']) {
                                 td2.innerHTML = '<font color="red">' + xhr1.responseText + '</font><br>';
                             } else {
+                                if (html['custom_filename']) upbigfilename = html['custom_filename'];
                                 td2.innerHTML = '<!--constStr@UploadStart--> ...';
                                 binupfile(file, html['uploadUrl'], timea + '_' + i, upbigfilename);
                             }
@@ -1600,6 +1627,7 @@
                                 } else {
                                     td2.innerHTML = '<!--constStr@UploadStart--> ...';
                                     //console.log(html);
+                                    if (html['custom_filename']) upbigfilename = html['custom_filename'];
                                     localStorage.setItem(filesha1, JSON.stringify(html));
                                     binupfile(file, html, timea + '_' + i, upbigfilename, filesha1, chunksize);
                                 }
