@@ -1,6 +1,7 @@
 [Readme EN](readme.md)  
 
 # Enhanced 版本更新说明
+
 1. 新增 `picgo_auth` 安全接口，用于防止未授权的 API 调用（需配合 PicGo 修改版插件使用）。
 2. 新增 `GuestUpload` 与 `GuestView` 配置项：
     - `GuestUpload`：控制是否允许游客上传文件；

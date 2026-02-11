@@ -4,12 +4,12 @@
 
 1. Added the `picgo_auth` security interface to prevent unauthorized API calls (requires a modified PicGo plugin).
 2. Added `GuestUpload` and `GuestView configuration options:
-   * `GuestUpload`: controls whether guest users are allowed to upload files;
-   * `GuestView`: controls whether guest users are allowed to browse directories.
+   - `GuestUpload`: controls whether guest users are allowed to upload files;
+   - `GuestView`: controls whether guest users are allowed to browse directories.
 3. Implemented a unified file renaming mechanism; all uploaded images are automatically renamed regardless of the upload method.
 4. Permission-based upload control:
-   * Guest users can upload image files only, reducing security risks;
-   * Administrators can upload files without type restrictions.
+   - Guest users can upload image files only, reducing security risks;
+   - Administrators can upload files without type restrictions.
 5. Due to the large number of existing themes, only the `classic`, `new_onedrive`, and `renexmoe` themes have been modified; other themes remain unchanged.
 
 ---
