@@ -984,7 +984,7 @@ class Onedrive {
     }
 
     public function smallfileupload($path, $tmpfile) {
-        $datePath = 'images/' . date('Y/m/');
+        $datePath = date('Y/m/');
         
         if (!$_SERVER['admin']) {
             // 读取配置中的 'picgo_auth' 字段
@@ -1017,7 +1017,7 @@ class Onedrive {
         return output(json_encode($res, JSON_UNESCAPED_SLASHES), $result['stat']);
     }
     public function bigfileupload($path) {
-        $datePath = 'images/' . date('Y/m/');
+        $datePath = date('Y/m/');
         if ($_POST['upbigfilename'] == '') return output('error: no file name', 400);
         if (!is_numeric($_POST['filesize'])) return output('error: no file size', 400);
 
