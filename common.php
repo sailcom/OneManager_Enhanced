@@ -1907,7 +1907,7 @@ output:
             }
         }
         $frame .= '
-        <a href="https://github.com/qkqpttgf/OneManager-php" target="_blank">Github</a>
+        <a href="https://github.com/sailcom/OneManager_Enhanced" target="_blank">Github</a>
         <a href="https://gitee.com/qkqpttgf/OneManager-php" target="_blank">Gitee</a>
         <!--a href="https://git.hit.edu.cn/ysun/OneManager-php" target="_blank">HIT Gitlab</a--><br><br>
 ';
@@ -1924,8 +1924,8 @@ output:
         <option value="Gitee">Gitee</option>
         <!--option value="HITGitlab">HIT Gitlab</option-->
     </select>
-    <input type="text" name="auth" size="6" placeholder="auth" value="qkqpttgf">
-    <input type="text" name="project" size="12" placeholder="project" value="OneManager-php">
+    <input type="text" name="auth" size="6" placeholder="auth" value="sailcom">
+    <input type="text" name="project" size="12" placeholder="project" value="OneManager_Enhanced">
     <button name="QueryBranchs" onclick="querybranchs(this);return false;">' . getconstStr('QueryBranchs') . '</button>
     <select name="branch">
         <option value="master">master</option>
@@ -1935,9 +1935,9 @@ output:
 
 <script>
     function changeGitSource(d) {
-        if (d.options[d.options.selectedIndex].value=="Github") document.updateform.auth.value = "qkqpttgf";
-        if (d.options[d.options.selectedIndex].value=="Gitee") document.updateform.auth.value = "qkqpttgf";
-        if (d.options[d.options.selectedIndex].value=="HITGitlab") document.updateform.auth.value = "ysun";
+        if (d.options[d.options.selectedIndex].value=="Github") {document.updateform.auth.value = "sailcom"; document.updateform.project.value = "OneManager_Enhanced";}
+        if (d.options[d.options.selectedIndex].value=="Gitee") {document.updateform.auth.value = "qkqpttgf"; document.updateform.project.value = "OneManager-php";}
+        if (d.options[d.options.selectedIndex].value=="HITGitlab") {document.updateform.auth.value = "ysun"; document.updateform.project.value = "OneManager-php";}
         document.updateform.QueryBranchs.style.display = null;
         document.updateform.branch.options.length = 0;
         document.updateform.branch.options.add(new Option("master", "master"));
