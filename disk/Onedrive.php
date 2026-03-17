@@ -89,13 +89,24 @@ class Onedrive {
                 }
             }
 
+            // First, get item metadata without expand=children to determine if it's a file or folder.
+            // Requesting expand=children on a file causes a 422 error from OneDrive API.
             $url = $this->api_url . $this->ext_api_url;
             if ($path !== '/') {
                 $url .= ':' . $path;
                 if (substr($url, -1) == '/') $url = substr($url, 0, -1);
             }
-            $url .= '?expand=children(select=id,name,size,file,folder,parentReference,lastModifiedDateTime,' . $this->DownurlStrName . ')';
-            $arr = $this->MSAPI('GET', $url);
+            $meta_url = $url . '?select=id,name,size,file,folder,parentReference,lastModifiedDateTime,' . $this->DownurlStrName;
+            $arr = $this->MSAPI('GET', $meta_url);
+
+            // If it's a folder, re-request with expand=children to get folder contents
+            if ($arr['stat'] < 500) {
+                $meta = json_decode($arr['body'], true);
+                if (isset($meta['folder'])) {
+                    $folder_url = $url . '?expand=children(select=id,name,size,file,folder,parentReference,lastModifiedDateTime,' . $this->DownurlStrName . ')';
+                    $arr = $this->MSAPI('GET', $folder_url);
+                }
+            }
             //echo $url . '<br><pre>' . json_encode($arr, JSON_PRETTY_PRINT) . '</pre>';
             if ($arr['stat'] < 500) {
                 $files = json_decode($arr['body'], true);
