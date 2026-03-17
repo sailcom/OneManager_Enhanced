@@ -817,10 +817,11 @@ function gen_renamed_filename($original_filename, $md5 = '') {
     $extension = strtolower(pathinfo($original_filename, PATHINFO_EXTENSION));
     $timestamp = time();
     
-    if (!empty($md5)) {
+    // 校验 md5 是否为有效的32位十六进制字符串，防止客户端误传时间戳等非法值
+    if (!empty($md5) && preg_match('/^[a-f0-9]{32}$/i', $md5)) {
         $hash_part = substr($md5, 0, 8);
     } else {
-        // Fallback: Generate 8 random hex characters if MD5 is missing
+        // Fallback: MD5 为空或格式无效时，生成8位随机十六进制字符
         $hash_part = bin2hex(random_bytes(4));
     }
     
